@@ -33,5 +33,10 @@ gradlePlugin {
             implementationClass =
                 "com.banumusagr.convention.AndroidComposeConventionPlugin"
         }
+        register("androidLibraryCompose") {
+            id = "banumusagr.android.library.compose"
+            implementationClass =
+                "com.banumusagr.convention.AndroidLibraryComposeConventionPlugin"
+        }
     }
 }

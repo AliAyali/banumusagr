@@ -1,4 +1,4 @@
-package com.example.banumusagr
+package com.aliayali.banumusagr
 
 import org.junit.Test
 
