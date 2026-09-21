@@ -25,3 +25,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "banumusagr"
 include(":app")
+include(":core:navigation")

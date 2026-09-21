@@ -4,10 +4,10 @@ plugins {
 }
 
 android {
-    namespace = "com.example.banumusagr"
+    namespace = "com.aliayali.banumusagr"
 
     defaultConfig {
-        applicationId = "com.example.banumusagr"
+        applicationId = "com.aliayali.banumusagr"
         versionCode = 1
         versionName = "1.0"
 
