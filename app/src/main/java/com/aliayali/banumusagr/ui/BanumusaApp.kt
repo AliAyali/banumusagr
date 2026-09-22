@@ -5,27 +5,19 @@ import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
+import androidx.activity.compose.BackHandler
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import com.aliayali.banumusagr.components.ErrorScreen
+import com.aliayali.banumusagr.components.LoadingScreen
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
@@ -33,86 +25,75 @@ fun BanumusaApp() {
 
     var isLoading by remember { mutableStateOf(true) }
     var hasError by remember { mutableStateOf(false) }
+    var webView: WebView? by remember { mutableStateOf(null) }
+
+    val backDispatcher =
+        LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+
+    BackHandler {
+        if (webView?.canGoBack() == true) {
+            webView?.goBack()
+        } else {
+            backDispatcher?.onBackPressed()
+        }
+    }
 
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
 
-        AndroidView(
-            modifier = Modifier.fillMaxSize(),
-            factory = { context ->
-                WebView(context).apply {
+        if (!hasError) {
+            AndroidView(
+                modifier = Modifier.fillMaxSize(),
+                factory = { context ->
 
-                    webViewClient = object : WebViewClient() {
+                    WebView(context).apply {
 
-                        override fun onPageFinished(
-                            view: WebView?,
-                            url: String?
-                        ) {
-                            isLoading = false
-                        }
+                        webViewClient = object : WebViewClient() {
 
-                        override fun onReceivedError(
-                            view: WebView?,
-                            request: WebResourceRequest?,
-                            error: WebResourceError?
-                        ) {
-                            if (request?.isForMainFrame == true) {
+                            override fun onPageFinished(
+                                view: WebView?,
+                                url: String?
+                            ) {
                                 isLoading = false
-                                hasError = true
+                            }
+
+                            override fun onReceivedError(
+                                view: WebView?,
+                                request: WebResourceRequest?,
+                                error: WebResourceError?
+                            ) {
+                                if (request?.isForMainFrame == true) {
+                                    isLoading = false
+                                    hasError = true
+                                    view?.stopLoading()
+                                }
                             }
                         }
+
+                        settings.javaScriptEnabled = true
+                        settings.domStorageEnabled = true
+
+                        webView = this
+
+                        loadUrl("https://banumusagr.ir/")
                     }
-
-                    settings.javaScriptEnabled = true
-                    settings.domStorageEnabled = true
-
-                    loadUrl("https://banumusagr.ir/")
                 }
-            }
-        )
+            )
+        }
 
         if (isLoading && !hasError) {
             LoadingScreen()
         }
-    }
-}
 
-@Composable
-private fun LoadingScreen() {
-    val infiniteTransition = rememberInfiniteTransition(
-        label = "loading"
-    )
-
-    val rotation by infiniteTransition.animateFloat(
-        initialValue = 0f,
-        targetValue = 360f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(
-                durationMillis = 1000,
-                easing = LinearEasing
-            ),
-            repeatMode = RepeatMode.Restart
-        ),
-        label = "rotation"
-    )
-
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator(
-            modifier = Modifier.size(42.dp),
-            strokeWidth = 3.dp,
-            color = Color.Black
-        )
-
-        CircularProgressIndicator(
-            modifier = Modifier
-                .size(54.dp)
-                .rotate(rotation),
-            strokeWidth = 1.dp,
-            color = Color.Black
-        )
+        if (hasError) {
+            ErrorScreen(
+                onRetry = {
+                    hasError = false
+                    isLoading = true
+                    webView?.reload()
+                }
+            )
+        }
     }
 }

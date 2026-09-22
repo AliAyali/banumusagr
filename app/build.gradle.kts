@@ -24,9 +24,12 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.designsystem)
+    implementation(projects.core.navigation)
+
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.core.splashscreen)
-
+    implementation(libs.androidx.compose.material.icons.extended)
     testImplementation(libs.junit)
 
     androidTestImplementation(libs.androidx.espresso.core)
