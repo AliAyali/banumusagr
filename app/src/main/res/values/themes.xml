@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Banumusagr" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.Banumusagr" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:colorAccent">@android:color/black</item>
+    </style>
+
+    <style name="Theme.Banumusagr.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@android:color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_screen</item>
+        <item name="postSplashScreenTheme">@style/Theme.Banumusagr</item>
+    </style>
+
 </resources>
