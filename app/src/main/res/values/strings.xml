@@ -1,6 +1,39 @@
 <resources>
-    <string name="app_name">banumusa</string>
+
     <string name="connection_error_title">اتصال برقرار نیست</string>
     <string name="connection_error_message">اتصال اینترنت خود را بررسی کنید و دوباره تلاش کنید</string>
     <string name="retry">تلاش مجدد</string>
+
+    <string name="app_name">WorkLog</string>
+    <string name="worklog_description">ثبت و ارسال گزارش فعالیت</string>
+
+    <string name="report_type">نوع گزارش</string>
+    <string name="report_daily">روزانه</string>
+    <string name="report_weekly">هفتگی</string>
+    <string name="report_monthly">ماهانه</string>
+
+    <string name="employee_information">اطلاعات کارمند</string>
+    <string name="full_name">نام و نام خانوادگی</string>
+    <string name="full_name_hint">نام و نام خانوادگی خود را وارد کنید</string>
+
+    <string name="department">واحد</string>
+    <string name="department_hint">واحد یا بخش خود را وارد کنید</string>
+
+    <string name="report_date">تاریخ گزارش</string>
+
+    <string name="activity_report">گزارش فعالیت</string>
+    <string name="activity_report_hint">امروز چه کارهایی انجام دادید؟</string>
+
+    <string name="problems_and_obstacles">مشکلات و موانع</string>
+    <string name="problems_hint">آیا مانعی در انجام کار وجود داشت؟</string>
+
+    <string name="next_work_plan">برنامه کاری بعدی</string>
+    <string name="next_work_plan_hint">برای ادامه کار چه برنامه‌ای دارید؟</string>
+
+    <string name="total_work_hours">جمع ساعات کاری</string>
+    <string name="total_work_hours_hint">مثلاً ۷ ساعت و ۳۰ دقیقه</string>
+
+    <string name="send_report">ارسال گزارش</string>
+    <string name="report_sent_successfully">گزارش با موفقیت ارسال شد</string>
+    <string name="sending_report">در حال ارسال...</string>
 </resources>
