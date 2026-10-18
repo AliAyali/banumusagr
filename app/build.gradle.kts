@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.banumusagr.android.application)
     alias(libs.plugins.banumusagr.android.application.compose)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -8,22 +9,26 @@ android {
 
     defaultConfig {
         applicationId = "com.aliayali.banumusagr"
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            optimization {
-                enable = false
-            }
+            isMinifyEnabled = false
+            isShrinkResources = false
         }
     }
 }
 
 dependencies {
+    implementation(libs.androidx.media3.common.ktx)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
     implementation(projects.core.designsystem)
     implementation(projects.core.navigation)
     implementation(libs.retrofit)

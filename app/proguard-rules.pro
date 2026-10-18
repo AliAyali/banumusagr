@@ -1,0 +1,1 @@
+-keep class com.aliayali.banumusagr.network.ResponseModel { *; }
