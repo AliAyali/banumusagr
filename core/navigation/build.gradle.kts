@@ -1,6 +1,6 @@
 plugins {
-    alias(libs.plugins.banumusagr.android.library)
-    alias(libs.plugins.banumusagr.android.library.compose)
+    alias(libs.plugins.banumusa.android.application)
+    alias(libs.plugins.banumusa.android.application.compose)
 }
 
 android {

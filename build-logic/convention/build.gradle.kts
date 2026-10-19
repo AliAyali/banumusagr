@@ -1,3 +1,4 @@
+
 plugins {
     `kotlin-dsl`
     `java-gradle-plugin`
@@ -17,24 +18,32 @@ dependencies {
 
 gradlePlugin {
     plugins {
+        register("androidLibraryDesugaring") {
+            id = "com.banumusa.android.library.desugaring"
+            implementationClass =
+                "com.banumusagr.convention.AndroidLibraryDesugaringConventionPlugin"
+        }
+
         register("androidApplication") {
-            id = "banumusagr.android.application"
+            id = "com.banumusa.android.application"
             implementationClass =
                 "com.banumusagr.convention.AndroidApplicationConventionPlugin"
         }
 
         register("androidLibrary") {
-            id = "banumusagr.android.library"
+            id = "com.banumusa.android.library"
             implementationClass =
                 "com.banumusagr.convention.AndroidLibraryConventionPlugin"
         }
+
         register("androidCompose") {
-            id = "banumusagr.android.compose"
+            id = "com.banumusa.android.compose"
             implementationClass =
                 "com.banumusagr.convention.AndroidComposeConventionPlugin"
         }
+
         register("androidLibraryCompose") {
-            id = "banumusagr.android.library.compose"
+            id = "com.banumusa.android.library.compose"
             implementationClass =
                 "com.banumusagr.convention.AndroidLibraryComposeConventionPlugin"
         }

@@ -1,7 +1,8 @@
 plugins {
-    alias(libs.plugins.banumusagr.android.application)
-    alias(libs.plugins.banumusagr.android.application.compose)
+    alias(libs.plugins.banumusa.android.application)
+    alias(libs.plugins.banumusa.android.application.compose)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt.android)
 }
 
 android {
@@ -21,21 +22,35 @@ android {
             isShrinkResources = false
         }
     }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+
+        isCoreLibraryDesugaringEnabled = true
+    }
 }
 
 dependencies {
-    implementation(libs.androidx.media3.common.ktx)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
+    coreLibraryDesugaring(libs.android.desugar.jdk.libs)
+
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+
+//    implementation(projects.core.data)
     implementation(projects.core.designsystem)
     implementation(projects.core.navigation)
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.gson)
+    implementation(projects.feature.home)
+    implementation(projects.feature.report)
 
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.compose.adaptive)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.media3.common.ktx)
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.compose.material.icons.extended)
     testImplementation(libs.junit)
 

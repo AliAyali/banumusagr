@@ -2,6 +2,7 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 pluginManagement {
     includeBuild("build-logic")
     repositories {
+        maven { url = uri("https://maven.myket.ir/") }
         google {
             content {
                 includeGroupByRegex("com\\.android.*")
@@ -29,3 +30,9 @@ rootProject.name = "banumusagr"
 include(":app")
 include(":core:navigation")
 include(":core:designsystem")
+include(":feature:home")
+include(":feature:report")
+include(":core:database")
+include(":core:data")
+include(":core:domain")
+include(":core:model")
