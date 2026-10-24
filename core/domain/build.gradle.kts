@@ -16,7 +16,6 @@ android {
 dependencies {
     implementation(projects.core.database)
     implementation(projects.core.model)
-    implementation(projects.core.domain)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

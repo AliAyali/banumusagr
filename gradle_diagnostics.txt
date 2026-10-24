@@ -1,0 +1,675 @@
+
+
+==============================
+FILE: C:\Users\Sam-Tech\AndroidStudioProjects\banumusagr\app\build.gradle.kts
+==============================
+plugins {
+    alias(libs.plugins.banumusa.android.application)
+    alias(libs.plugins.banumusa.android.application.compose)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt.android)
+}
+
+android {
+    namespace = "com.aliayali.banumusagr"
+
+    defaultConfig {
+        applicationId = "com.aliayali.banumusagr"
+        versionCode = 2
+        versionName = "1.1"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            isShrinkResources = false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+
+        isCoreLibraryDesugaringEnabled = true
+    }
+}
+
+dependencies {
+    coreLibraryDesugaring(libs.android.desugar.jdk.libs)
+
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+
+    implementation(projects.core.designsystem)
+    implementation(projects.core.navigation)
+    implementation(projects.core.data)
+    implementation(projects.feature.home)
+    implementation(projects.feature.report)
+
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.compose.adaptive)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.media3.common.ktx)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.compose.material.icons.extended)
+    testImplementation(libs.junit)
+
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.junit)
+}
+
+
+==============================
+FILE: C:\Users\Sam-Tech\AndroidStudioProjects\banumusagr\build-logic\convention\build.gradle.kts
+==============================
+
+plugins {
+    `kotlin-dsl`
+    `java-gradle-plugin`
+}
+
+group = "com.banumusagr.buildlogic"
+
+repositories {
+    google()
+    mavenCentral()
+    gradlePluginPortal()
+}
+
+dependencies {
+    compileOnly(libs.android.gradle.plugin)
+}
+
+gradlePlugin {
+    plugins {
+        register("androidLibraryDesugaring") {
+            id = "com.banumusa.android.library.desugaring"
+            implementationClass =
+                "com.banumusagr.convention.AndroidLibraryDesugaringConventionPlugin"
+        }
+
+        register("androidApplication") {
+            id = "com.banumusa.android.application"
+            implementationClass =
+                "com.banumusagr.convention.AndroidApplicationConventionPlugin"
+        }
+
+        register("androidLibrary") {
+            id = "com.banumusa.android.library"
+            implementationClass =
+                "com.banumusagr.convention.AndroidLibraryConventionPlugin"
+        }
+
+        register("androidCompose") {
+            id = "com.banumusa.android.compose"
+            implementationClass =
+                "com.banumusagr.convention.AndroidComposeConventionPlugin"
+        }
+
+        register("androidLibraryCompose") {
+            id = "com.banumusa.android.library.compose"
+            implementationClass =
+                "com.banumusagr.convention.AndroidLibraryComposeConventionPlugin"
+        }
+    }
+}
+
+
+==============================
+FILE: C:\Users\Sam-Tech\AndroidStudioProjects\banumusagr\build-logic\settings.gradle.kts
+==============================
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    versionCatalogs {
+        create("libs") {
+            from(files("../gradle/libs.versions.toml"))
+        }
+    }
+}
+
+rootProject.name = "build-logic"
+
+include(":convention")
+
+
+==============================
+FILE: C:\Users\Sam-Tech\AndroidStudioProjects\banumusagr\core\data\build.gradle.kts
+==============================
+plugins {
+    alias(libs.plugins.banumusa.android.library)
+    alias(libs.plugins.banumusa.android.library.compose)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt.android)
+}
+
+android {
+    namespace = "com.aliayali.data"
+
+    defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+}
+
+dependencies {
+    implementation(projects.core.database)
+    implementation(projects.core.model)
+    implementation(projects.core.domain)
+    implementation(projects.core.network)
+
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.junit)
+}
+
+
+==============================
+FILE: C:\Users\Sam-Tech\AndroidStudioProjects\banumusagr\core\database\build.gradle.kts
+==============================
+plugins {
+    alias(libs.plugins.banumusa.android.library)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt.android)
+}
+
+android {
+    namespace = "com.aliayali.database"
+
+    defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+}
+
+dependencies {
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.junit)
+}
+
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+}
+
+
+==============================
+FILE: C:\Users\Sam-Tech\AndroidStudioProjects\banumusagr\core\designsystem\build.gradle.kts
+==============================
+plugins {
+    alias(libs.plugins.banumusa.android.library)
+    alias(libs.plugins.banumusa.android.library.compose)
+}
+
+android {
+    namespace = "com.aliayali.designsystem"
+}
+
+dependencies {
+    implementation(libs.androidx.compose.material.icons.extended)
+    implementation(libs.androidx.compose.material3.adaptive.navigation.suite)
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.androidx.compose.material3)
+}
+
+
+==============================
+FILE: C:\Users\Sam-Tech\AndroidStudioProjects\banumusagr\core\domain\build.gradle.kts
+==============================
+plugins {
+    alias(libs.plugins.banumusa.android.library)
+    alias(libs.plugins.banumusa.android.library.compose)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt.android)
+}
+
+android {
+    namespace = "com.aliayali.domain"
+
+    defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+}
+
+dependencies {
+    implementation(projects.core.database)
+    implementation(projects.core.model)
+
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.junit)
+}
+
+
+==============================
+FILE: C:\Users\Sam-Tech\AndroidStudioProjects\banumusagr\core\model\build.gradle.kts
+==============================
+plugins {
+    alias(libs.plugins.banumusa.android.library)
+    alias(libs.plugins.banumusa.android.library.compose)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt.android)
+}
+
+android {
+    namespace = "com.aliayali.model"
+
+    defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+}
+
+dependencies {
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+    testImplementation(libs.junit)
+}
+
+
+==============================
+FILE: C:\Users\Sam-Tech\AndroidStudioProjects\banumusagr\core\navigation\build.gradle.kts
+==============================
+plugins {
+    alias(libs.plugins.banumusa.android.library)
+    alias(libs.plugins.banumusa.android.library.compose)
+}
+
+android {
+    namespace = "com.aliayali.navigation"
+}
+
+dependencies {
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
+}
+
+
+==============================
+FILE: C:\Users\Sam-Tech\AndroidStudioProjects\banumusagr\core\network\build.gradle.kts
+==============================
+plugins {
+    alias(libs.plugins.banumusa.android.application)
+    alias(libs.plugins.banumusa.android.application.compose)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt.android)
+    alias(libs.plugins.kotlin.serialization)
+}
+
+android {
+    namespace = "com.aliayali.network"
+
+    defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+}
+
+dependencies {
+    implementation(libs.retrofit.core)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.okhttp.core)
+
+    implementation(projects.feature.report)
+
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+
+    implementation(projects.core.navigation)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.media3.common.ktx)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.compose.material.icons.extended)
+    testImplementation(libs.junit)
+
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.junit)
+}
+
+
+==============================
+FILE: C:\Users\Sam-Tech\AndroidStudioProjects\banumusagr\feature\home\build.gradle.kts
+==============================
+plugins {
+    alias(libs.plugins.banumusa.android.library)
+    alias(libs.plugins.banumusa.android.library.compose)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt.android)
+    alias(libs.plugins.kotlin.serialization)
+}
+
+android {
+    namespace = "com.aliayali.home"
+
+    defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+}
+
+dependencies {
+    implementation(projects.feature.report)
+    implementation(projects.core.model)
+    implementation(projects.core.domain)
+
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+
+    implementation(projects.core.navigation)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.media3.common.ktx)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.compose.material.icons.extended)
+    testImplementation(libs.junit)
+
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.junit)
+}
+
+
+==============================
+FILE: C:\Users\Sam-Tech\AndroidStudioProjects\banumusagr\feature\report\build.gradle.kts
+==============================
+plugins {
+    alias(libs.plugins.banumusa.android.library)
+    alias(libs.plugins.banumusa.android.library.compose)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt.android)
+    alias(libs.plugins.kotlin.serialization)
+}
+
+android {
+    namespace = "com.aliayali.report"
+
+    defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+}
+
+dependencies {
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+
+    implementation(projects.core.navigation)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.media3.common.ktx)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.compose.material.icons.extended)
+    testImplementation(libs.junit)
+
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.junit)
+}
+
+
+==============================
+FILE: C:\Users\Sam-Tech\AndroidStudioProjects\banumusagr\gradle\wrapper\gradle-wrapper.properties
+==============================
+#Mon Sep 21 09:33:04 GMT+03:30 2026
+distributionBase=GRADLE_USER_HOME
+distributionPath=wrapper/dists
+distributionSha256Sum=bbaeb2fef8710818cf0e261201dab964c572f92b942812df0c3620d62a529a01
+distributionUrl=https\://services.gradle.org/distributions/gradle-9.6.0-bin.zip
+networkTimeout=10000
+validateDistributionUrl=true
+zipStoreBase=GRADLE_USER_HOME
+zipStorePath=wrapper/dists
+
+
+
+==============================
+FILE: C:\Users\Sam-Tech\AndroidStudioProjects\banumusagr\gradle\gradle-daemon-jvm.properties
+==============================
+#This file is generated by updateDaemonJvm
+toolchainUrl.FREE_BSD.AARCH64=https\://api.foojay.io/disco/v3.0/ids/cf726b4a1c84b50457225f9bba6d7650/redirect
+toolchainUrl.FREE_BSD.X86_64=https\://api.foojay.io/disco/v3.0/ids/fa1e318c287360478e3c83a9a3ef1007/redirect
+toolchainUrl.LINUX.AARCH64=https\://api.foojay.io/disco/v3.0/ids/cf726b4a1c84b50457225f9bba6d7650/redirect
+toolchainUrl.LINUX.X86_64=https\://api.foojay.io/disco/v3.0/ids/fa1e318c287360478e3c83a9a3ef1007/redirect
+toolchainUrl.MAC_OS.AARCH64=https\://api.foojay.io/disco/v3.0/ids/c2dd35c9d0aaf0ba6ad0791320f99dfc/redirect
+toolchainUrl.MAC_OS.X86_64=https\://api.foojay.io/disco/v3.0/ids/e5810bd7fd1f8a586644409d395a7e55/redirect
+toolchainUrl.UNIX.AARCH64=https\://api.foojay.io/disco/v3.0/ids/cf726b4a1c84b50457225f9bba6d7650/redirect
+toolchainUrl.UNIX.X86_64=https\://api.foojay.io/disco/v3.0/ids/fa1e318c287360478e3c83a9a3ef1007/redirect
+toolchainUrl.WINDOWS.AARCH64=https\://api.foojay.io/disco/v3.0/ids/7b3c4877c0749019e6805bb61e421497/redirect
+toolchainUrl.WINDOWS.X86_64=https\://api.foojay.io/disco/v3.0/ids/d76df094a9cbbabd3b08251f9e61444a/redirect
+toolchainVersion=25
+
+
+
+==============================
+FILE: C:\Users\Sam-Tech\AndroidStudioProjects\banumusagr\gradle\libs.versions.toml
+==============================
+[versions]
+agp = "9.4.0"
+coreKtx = "1.10.1"
+junit = "4.13.2"
+junitVersion = "1.1.5"
+espressoCore = "3.5.1"
+lifecycleRuntimeKtx = "2.6.1"
+activityCompose = "1.8.0"
+kotlin = "2.2.10"
+composeBom = "2026.02.01"
+appcompat = "1.6.1"
+material = "1.10.0"
+navigation3 = "1.1.7"
+lifecycleViewmodelNavigation3 = "2.11.0"
+coreSplashscreen = "1.0.1"
+retrofit = "2.11.0"
+room = "2.8.4"
+ksp = "2.3.4"
+media3CommonKtx = "1.11.1"
+navigationCompose = "2.10.1"
+serialization = "1.9.0"
+adaptive = "1.3.0"
+material3AdaptiveNavigationSuite = "1.4.0"
+hilt = "2.60.1"
+androidxHiltNavigationCompose = "1.2.0"
+desugarJdkLibs = "2.1.5"
+okhttp = "4.12.0"
+
+[libraries]
+# Retrofit
+retrofit-core = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+
+# OkHttp
+okhttp-core = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+
+android-desugar-jdk-libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugarJdkLibs" }
+
+# Hilt
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
+androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
+
+# Kotlin Serialization
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
+
+# Room
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+
+# Compose
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
+
+# AndroidX
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "lifecycleViewmodelNavigation3" }
+
+# Navigation
+androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "navigation3" }
+androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "navigation3" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+
+# Testing
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+
+# Other libraries
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+androidx-media3-common-ktx = { group = "androidx.media3", name = "media3-common-ktx", version.ref = "media3CommonKtx" }
+
+# Gradle plugins as libraries
+android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+androidx-compose-adaptive = { group = "androidx.compose.material3.adaptive", name = "adaptive", version.ref = "adaptive" }
+androidx-compose-material3-adaptive-navigation-suite = { group = "androidx.compose.material3", name = "material3-adaptive-navigation-suite", version.ref = "material3AdaptiveNavigationSuite" }
+
+[plugins]
+hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+banumusa-android-application = { id = "com.banumusa.android.application" }
+banumusa-android-application-compose = { id = "com.banumusa.android.compose" }
+banumusa-android-library = { id = "com.banumusa.android.library" }
+banumusa-android-library-compose = { id = "com.banumusa.android.library.compose" }
+
+
+==============================
+FILE: C:\Users\Sam-Tech\AndroidStudioProjects\banumusagr\build.gradle.kts
+==============================
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+plugins {
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.kotlin.compose) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.ksp) apply false
+}
+
+
+==============================
+FILE: C:\Users\Sam-Tech\AndroidStudioProjects\banumusagr\gradle.properties
+==============================
+# Project-wide Gradle settings.
+# IDE (e.g. Android Studio) users:
+# Gradle settings configured through the IDE *will override*
+# any settings specified in this file.
+# For more details on how to configure your build environment visit
+# http://www.gradle.org/docs/current/userguide/build_environment.html
+# Specifies the JVM arguments used for the daemon process.
+# The setting is particularly useful for tweaking memory settings.
+org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8
+# When configured, Gradle will run in incubating parallel mode.
+# This option should only be used with decoupled projects. For more details, visit
+# https://developer.android.com/r/tools/gradle-multi-project-decoupled-projects
+# org.gradle.parallel=true
+# When enabled, the Configuration Cache allows Gradle to skip the configuration
+# phase entirely if nothing that affects the build configuration (such as build scripts)
+# has changed. Additionally, Gradle applies performance optimizations to task execution.
+org.gradle.configuration-cache=true
+# Kotlin code style for this project: "official" or "obsolete":
+kotlin.code.style=official
+
+
+==============================
+FILE: C:\Users\Sam-Tech\AndroidStudioProjects\banumusagr\local.properties
+==============================
+## This file is automatically generated by Android Studio.
+# Do not modify this file -- YOUR CHANGES WILL BE ERASED!
+#
+# This file should *NOT* be checked into Version Control Systems,
+# as it contains information specific to your local configuration.
+#
+# Location of the SDK. This is only used by Gradle.
+# For customization when using a Version Control System, please read the
+# header note.
+sdk.dir=C\:\\Users\\Sam-Tech\\AppData\\Local\\Android\\Sdk
+
+
+==============================
+FILE: C:\Users\Sam-Tech\AndroidStudioProjects\banumusagr\settings.gradle.kts
+==============================
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+pluginManagement {
+    includeBuild("build-logic")
+    repositories {
+        maven { url = uri("https://maven.myket.ir/") }
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        maven { url = uri("https://maven.myket.ir/") }
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = "banumusagr"
+include(":app")
+include(":core:navigation")
+include(":core:designsystem")
+include(":feature:home")
+include(":feature:report")
+include(":core:database")
+include(":core:data")
+include(":core:domain")
+include(":core:model")
+include(":core:network")
+

@@ -1,6 +1,6 @@
 plugins {
-    alias(libs.plugins.banumusa.android.application)
-    alias(libs.plugins.banumusa.android.application.compose)
+    alias(libs.plugins.banumusa.android.library)
+    alias(libs.plugins.banumusa.android.library.compose)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.kotlin.serialization)
@@ -15,7 +15,14 @@ android {
 }
 
 dependencies {
+    implementation(projects.feature.history)
     implementation(projects.feature.report)
+    implementation(projects.feature.profile)
+    implementation(projects.core.model)
+    implementation(projects.core.domain)
+    implementation(projects.core.common)
+    implementation(projects.core.network)
+    implementation(projects.core.datastore)
 
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)

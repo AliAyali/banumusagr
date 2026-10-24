@@ -14,9 +14,14 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+
     implementation(projects.core.database)
     implementation(projects.core.model)
     implementation(projects.core.domain)
+    implementation(projects.core.network)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

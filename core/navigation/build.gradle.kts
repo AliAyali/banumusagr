@@ -1,13 +1,10 @@
 plugins {
-    alias(libs.plugins.banumusa.android.application)
-    alias(libs.plugins.banumusa.android.application.compose)
+    alias(libs.plugins.banumusa.android.library)
+    alias(libs.plugins.banumusa.android.library.compose)
 }
 
 android {
     namespace = "com.aliayali.navigation"
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
 }
 
 dependencies {

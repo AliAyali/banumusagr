@@ -10,16 +10,16 @@ android {
 
     defaultConfig {
         applicationId = "com.aliayali.banumusagr"
-        versionCode = 2
-        versionName = "1.1"
+        versionCode = 3
+        versionName = "2.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
-            isShrinkResources = false
+            isMinifyEnabled = true
+            isShrinkResources = true
         }
     }
 
@@ -38,11 +38,14 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
-//    implementation(projects.core.data)
     implementation(projects.core.designsystem)
     implementation(projects.core.navigation)
+    implementation(projects.core.data)
+    implementation(projects.core.datastore)
     implementation(projects.feature.home)
     implementation(projects.feature.report)
+    implementation(projects.feature.history)
+    implementation(projects.feature.profile)
 
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.compose.adaptive)
